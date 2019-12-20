@@ -1,0 +1,19 @@
+<h1>Editing Book</h1>
+<div class="contain">
+	<div class="row">
+		<div class="col-lg-10">
+			<%= form_for(@book) do |f| %>
+			<strong>Title</strong>
+				<%= f.text_field :title %>
+				<strong>Opinion</strong>
+				<%= f.text_area :body %>
+				<div class="row">
+					<div class="col-lg-10" style="background-color: blue">
+				<%=f.submit "Update Book" %>
+			</div>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+

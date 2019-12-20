@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Book</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <header class="container" style="background-color:black">
+      <nav>
+        <h1 style="color:white">
+        Bookers</h1>
+      </nav>
+      <nav>
+        <ul class="nav navbar-nav navbar-right">
+            <% if user_signed_in? %>
+            <li>
+              <%=link_to current_user do %>
+             <a class="glyphicon glyphicon-home">Home
+             </a>
+             <% end %>
+            </li>
+            <li>
+              <%=link_to users_path do %>
+              <i class="glyphicon glyphicon-user" aria-hidden="true">Users</i>
+              <% end %>
+            </li>
+            <li>
+            <%=link_to books_path do %>
+            <i class="glyphicon glyphicon-book" aria-hidden="true">Books</i>
+            <% end %>
+            </li>
+            <li>
+              <%= link_to  destroy_user_session_path, method: :delete do %>
+                <i class="glyphicon glyphicon-log-out" aria-hidden="true">logout</i>
+              <% end %>
+            </li>
+        <% else %>
+          <li>
+            <%=link_to root_path do %>
+            <i class="glyphicon glyphicon-home" aria-hidden="true"> Home</i>
+            <% end %>
+          </li>
+          <li>
+           <%=link_to abouts_path do %>
+           <i class="glyphicon glyphicon-link" aria-hidden="true"> about</i>
+           <% end %>
+          </li>
+          <li>
+          <%=link_to new_user_registration_path do %>
+          <i class="glyphicon glyphicon-share" aria-hidden="true">
+          signup</i>
+          <% end %>
+         </li>
+          <li>
+            <%= link_to  new_user_session_path do %>
+            <i class="glyphicon glyphicon-log-in" aria-hidden="true"> login</i>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </nav>
+
+
+
+
+       </div>
+    </div>
+    </header>
+    <%= yield %>
+    <div class="row">
+      <div class="col-lg-offset-9 col-lg-3">
+      CopyRight Infratop.inc
+    </div>
+  </div>
+  </body>
+</html>
