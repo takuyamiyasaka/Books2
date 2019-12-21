@@ -10,33 +10,33 @@
   </head>
 
   <body>
-    <header class="container" style="background-color:black">
-      <nav>
-        <h1 style="color:white">
-        Bookers</h1>
-      </nav>
-      <nav>
+    <header class="navbar  navbar-inverse "style="background-color:black">
+      <div class="container">
+        <nav class="nav navbar-nav naver-left">
+          <span class="book">Bookers</span>
+       </nav>
+       <nav>
         <ul class="nav navbar-nav navbar-right">
             <% if user_signed_in? %>
             <li>
               <%=link_to current_user do %>
-             <a class="glyphicon glyphicon-home">Home
-             </a>
+             <i class="glyphicon glyphicon-home"> Home
+             </i>
              <% end %>
             </li>
             <li>
               <%=link_to users_path do %>
-              <i class="glyphicon glyphicon-user" aria-hidden="true">Users</i>
+              <i class="glyphicon glyphicon-user" aria-hidden="true"> Users</i>
               <% end %>
             </li>
             <li>
             <%=link_to books_path do %>
-            <i class="glyphicon glyphicon-book" aria-hidden="true">Books</i>
+            <i class="glyphicon glyphicon-book" aria-hidden="true"> Books</i>
             <% end %>
             </li>
             <li>
               <%= link_to  destroy_user_session_path, method: :delete do %>
-                <i class="glyphicon glyphicon-log-out" aria-hidden="true">logout</i>
+                <i class="glyphicon glyphicon-log-out" aria-hidden="true"> logout</i>
               <% end %>
             </li>
         <% else %>
@@ -64,16 +64,11 @@
         <% end %>
       </ul>
     </nav>
-
-
-
-
-       </div>
-    </div>
+  </div>
     </header>
     <%= yield %>
     <div class="row">
-      <div class="col-lg-offset-9 col-lg-3">
+      <div class="col-xs-offset-9 col-lg-3">
       CopyRight Infratop.inc
     </div>
   </div>

@@ -1,20 +1,22 @@
-<h1>User info</h1>
-<% if @user.errors.any? %>
-	<div class="alert alert-warning">
-	<h2><%= @user.errors.count %></h2>
-		<ul>
+<div class="container">
+	<h2>User info</h2>
+		<% if @user.errors.any? %>
+		<div class="alert alert-warning">
+			<h2><%= @user.errors.count %>error</h2>
+			<ul>
 			<% @user.errors.full_messages.each do |message|%>
 				<li><%= message %></li>
 				<%end%>
-		</ul>
-	</div>
-<%end%>
-<%= form_for(@user) do |f| %>
-<strong>Name</strong>
-<%= f.text_field :name %>
-<strong>Image</strong>
-<%= f.attachment_field :profile_image %>
-<strong>Introduction</strong>
-<%= f.text_area :introduction %>
-<%=f.submit "Update User" %>
-<% end %>
+			</ul>
+		</div>
+		<%end%>
+		<%= form_for(@user) do |f| %>
+		<p><strong>Name</strong>
+		<%= f.text_field :name %></p>
+		<p><strong>Image</strong>
+		<%= f.attachment_field :profile_image %></p>
+		<p><strong>Introduction</strong>
+		<%= f.text_area :introduction %><p>
+		<div><%=f.submit "Update User" %></div>
+	<% end %>
+</div>
