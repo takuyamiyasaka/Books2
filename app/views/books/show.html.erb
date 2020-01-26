@@ -1,26 +1,33 @@
-<%=render "users/list",book: @book %>
 <div class="container">
+<p class="notice"><%= flash[:notice] %></p>
+<% if @book.errors.any? %>
+				<h2 class="text-danger"><%= @book.errors.count %>error</h2>
+				<ul class="text-danger">
+					<% @book.errors.full_messages.each do |message|%>
+					<li><%= message %></li>
+					<%end%>
+				</ul>
+			<%end%>
+			<div class="container">
 	<div class="row">
 		<div class="col-lg-3">
 			<h1>User info</h1>
 			<div>
-				<%=link_to user_path(@user.id) do %>
-				<%= attachment_image_tag @user,:profile_image, :fill,60,60, class: " pull-left profile-thumb",fallback: "no_image.jpg" %>
-				<% end %>
+			<%= attachment_image_tag @user,:profile_image, :fill,60,60, class: "pull-left profile-thumb",fallback: "no_image.jpg" %>
 			</div>
-			<table class="table">
-				<tbody>
-					<tr>
-						<th>name</th>
-						<th><%=@user.name%></th>
-					</tr>
-					<tr>
-						<th>introduction</th>
-						<th><%=@user.introduction %></th>
-					</tr>
-				</tbody>
-			</table>
-			<div class="row ">
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>name</th>
+				<th><%=@user.name%></th>
+			</tr>
+			<tr>
+				<th>introduction</th>
+				<th><%=@user.introduction %></th>
+			</tr>
+		</tbody>
+	</table>
+	<div class="row ">
 		<% if @user.id == current_user.id %>
 			<%=link_to edit_user_path(@user.id) do %>
 				<i class="col-xs-12 btn btn-default glyphicon glyphicon-wrench" aria-hidden="true"></i>
@@ -31,18 +38,15 @@
 			<% end %>
 		<% end %>
 	</div>
-			<div class="row">
-				<%= form_for(@_book) do |f| %>
-				<h2>Newbook</h2>
-				<h4>Title</h4>
-				<%= f.text_field :title %>
-				<h4>Opinion</h4>
-				<%= f.text_area :body %>
-				<p>
-				<%= f.submit "Create Book",class:"btn btn-primary" %></p>
-				<% end %>
-			</div>
-		</div>
+	<%= form_for(@_book) do |f| %>
+	<h2>Newbook</h2>
+	<h4>Title</h4>
+	<p><%= f.text_field :title %></p>
+	<h4>Opinion</h4>
+	<p><%= f.text_area :body %></p>
+	<div><%= f.submit "Create Book",class:"btn btn-primary" %></div>
+	<% end %>
+</div>
 			<div class="col-lg-9">
 				<h1>Book detail</h1>
 				<table class="table">
@@ -56,10 +60,8 @@
 					<tbody>
 						<tr>
 							<td>
-								<a><%=link_to user_path(@user.id) do %>
-								<%= attachment_image_tag @user,:profile_image, :fill,20,20, class: " pull-left profile-thumb",fallback: "no_image.jpg", :width => "20", :height => "20" %>
-								<% end %>
-								<br><%=link_to @user.name,user_path(@user.id) %></a>
+								<%=render "users/user",user:@user %>
+								<br><%=link_to @user.name,user_path(@user.id) %>
 							</td>
 							<td>
 								<%=link_to @book.title ,book_path(@book.id) %>
@@ -67,6 +69,24 @@
 							<td>
 								<%=@book.body %>
 							</td>
+
+							<td>
+								<% if @book.favorited_by?(current_user) %>
+						<%= link_to book_favorites_path(@book),method: :delete do %>
+						<i class="fa fa-heart" aria-hidden="true" style="color: red;"></i>
+						<%= @book.favorites.count %>いいね
+					<% end %>
+					<% else %>
+						<%= link_to book_favorites_path(@book),method: :post do %>
+						<i class="fa fa-heart-o" aria-hidden="true"></i>
+						<%= @book.favorites.count %>いいね
+					<% end %>
+				<% end %>
+			</td>
+			<td>
+				<i class="fa fa-comment"></i>
+				<%= @book.post_comments.count %>
+			</td>
 							<% if @user.id == current_user.id %>
 							<td>
 								<%= link_to "Edit" ,edit_book_path(@book.id) %>
@@ -76,10 +96,33 @@
 						</td>
 						<% else %>
 						<td>
+						</td>
 						<% end %>
 					</tr>
 				</tbody>
 			</table>
+			<div class="row">
+			<% @book.post_comments.each do |comment| %>
+			<table class="table">
+				<tr>
+					<td>
+			<%= comment.comment %>
+		</td>
+		<td>
+			<% if comment.user.id == current_user.id %>
+				<td>
+			<%= link_to "Destroy", book_post_comment_path(comment.id) , method: :delete,"data-confirm"=>"本当に消しますか?" %>
+			<% end %>
+		</td>
+	</tr>
+			<% end %>
+		</table>
+		</div>
+			<%= form_for [@book, @postcomment] do |new| %>
+			<%= new.text_area :comment %>
+			<%= new.submit"送信" %>
+			<% end %>
 		</div>
 	</div>
+</div>
 </div>
